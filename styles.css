@@ -185,3 +185,4 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
 .chart-note { color: var(--muted); font-size: .85rem; margin: 14px 0 0; }
 @media (max-width: 760px) { .bar-row { grid-template-columns: 110px 1fr 52px; gap: 8px; font-size: .85rem; } .chart { padding: 16px; } }
 .notes-teaser .note + .note { margin-top: 12px; }
+.pubs .me { color: var(--text); font-weight: 600; }
