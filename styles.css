@@ -126,3 +126,14 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
   .pubs li { grid-template-columns: 48px 1fr; }
   .section { padding: 48px 16px; }
 }
+
+/* portrait */
+.hero-top { display: grid; grid-template-columns: 1fr 200px; gap: 48px; align-items: center; }
+.hero-top > div { order: -1; min-width: 0; }
+.portrait { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--line), 0 8px 24px rgba(0, 0, 0, .08); }
+@media (max-width: 760px) {
+  .hero-top { grid-template-columns: 1fr; gap: 24px; }
+  .hero-top > div { order: 0; }
+  .portrait { width: 128px; height: 128px; }
+}
