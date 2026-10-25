@@ -180,9 +180,19 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
 .bar { display: block; height: 100%; width: calc(var(--v) / var(--max, 100) * 100%); min-width: 2px; background: var(--accent);
   border-radius: 0 4px 4px 0; }
 .bars[data-max="20"] .bar { --max: 20; }
+.bars[data-max="25"] .bar { --max: 25; }
 .bar-row:hover .bar { filter: brightness(1.15); }
 .bar-val { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
 .chart-note { color: var(--muted); font-size: .85rem; margin: 14px 0 0; }
 @media (max-width: 760px) { .bar-row { grid-template-columns: 110px 1fr 52px; gap: 8px; font-size: .85rem; } .chart { padding: 16px; } }
 .notes-teaser .note + .note { margin-top: 12px; }
 .pubs .me { color: var(--text); font-weight: 600; }
+
+/* small comparison table in notes */
+.cmp { width: 100%; border-collapse: collapse; margin: 24px 0 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: .95rem; }
+.cmp caption { text-align: left; font-weight: 600; padding: 0 0 10px; }
+.cmp th, .cmp td { padding: 12px 16px; border-bottom: 1px solid var(--line); text-align: left; }
+.cmp thead th { color: var(--muted); font-weight: 500; font-size: .88rem; }
+.cmp td { font-variant-numeric: tabular-nums; font-weight: 600; }
+.cmp td.muted { font-weight: 400; }
+.cmp tbody tr:last-child th, .cmp tbody tr:last-child td { border-bottom: 0; }
