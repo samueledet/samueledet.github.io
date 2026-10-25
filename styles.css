@@ -137,3 +137,34 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
   .hero-top > div { order: 0; }
   .portrait { width: 128px; height: 128px; }
 }
+
+/* field notes */
+.nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
+.notes-hero h1 { font-size: clamp(2rem, 5vw, 3rem); }
+.notes-list { padding-bottom: 72px; display: grid; gap: 16px; }
+.note { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px 28px; color: var(--text);
+  transition: border-color .15s, transform .15s; }
+.note:hover { border-color: var(--accent); text-decoration: none; transform: translateY(-2px); }
+.note h2, .note h3 { font-family: var(--serif); font-size: 1.4rem; margin: 0 0 8px; }
+.note p { margin: 0; color: var(--muted); }
+.note .go { display: inline-block; }
+.note-meta { font-size: .85rem; margin-bottom: 8px !important; }
+.article { max-width: 760px; padding-top: 56px; padding-bottom: 72px; }
+.article h1 { font-size: clamp(2rem, 5vw, 2.8rem); }
+.article h2 { font-size: 1.5rem; margin: 48px 0 16px; }
+.article .facts { grid-template-columns: repeat(2, 1fr); margin: 32px 0 0; }
+.article .facts strong { color: var(--accent); }
+.back { display: inline-block; font-size: .92rem; margin-bottom: 28px; }
+.byline { color: var(--muted); font-size: .92rem; margin: 12px 0 0; }
+.hurdles { padding: 0; margin: 0; list-style: none; counter-reset: h; }
+.hurdles li { counter-increment: h; position: relative; padding: 0 0 20px 48px; }
+.hurdles li::before { content: counter(h); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent); font-weight: 600; display: grid; place-items: center; font-size: .9rem; }
+.hurdles h3 { margin: 3px 0 4px; }
+.hurdles p { margin: 0; }
+.aside { border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; color: var(--muted); margin: 32px 0; }
+.sources { padding-left: 20px; color: var(--muted); font-size: .9rem; }
+.sources li { margin: 6px 0; }
+.article .hero-links { margin-top: 8px; }
+.notes-teaser { padding-bottom: 64px; }
+.teaser-head { display: flex; justify-content: space-between; align-items: baseline; }
