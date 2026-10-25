@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which Correlation Matrix? · Market &amp; Policy Notes</title>
+<meta name="description" content="Portfolio optimisers amplify errors in the correlation matrix. Two families of fixes exist, and which one works should depend on where a market's correlation structure lives.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<script>
+  try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="../">Samuel A. Edet</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="../#research">Research</a>
+      <a href="./" aria-current="page">Market &amp; Policy Notes</a>
+      <a href="../#experience">Experience</a>
+      <a href="../#projects">Projects</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="theme" type="button" aria-label="Switch light or dark theme">◐</button>
+  </div>
+</header>
+
+<main>
+  <article class="wrap article">
+    <a class="back" href="./">← Market &amp; Policy Notes</a>
+    <p class="eyebrow">Portfolio construction · Risk · Work in progress</p>
+    <h1>Which correlation matrix should you trust? An open question for portfolio builders</h1>
+    <p class="byline">Samuel Edet · October 2026 · from ongoing research with Lionel Yelibi</p>
+
+    <p class="lede">Almost every portfolio method used by institutional investors runs on an estimated correlation
+      matrix. That estimate is noisy, and optimisers make the noise worse. There are two broad ways to clean it, but
+      no one has shown fairly when each one should be used. We think the answer depends on how a market's assets are
+      connected, and that this can be measured.</p>
+
+    <h2>The problem: optimisers chase estimation error</h2>
+    <p>Minimum variance, risk parity, maximum diversification and hierarchical risk parity all turn a correlation
+      matrix into portfolio weights. With 500 stocks and a year of daily data, there are more than 120,000
+      correlations to estimate from about 250 observations per stock. Many of those estimates are mostly noise.</p>
+    <p>An optimiser does not treat that noise neutrally. It looks for combinations of assets that appear to cancel
+      each other's risk, and those are exactly the combinations the data measure worst. Richard Michaud called this
+      "error maximisation" in 1989. The result is weights that swing from one rebalance to the next even when nothing
+      in the market has changed.</p>
+    <p>This is why simple rules are so hard to beat. An equal-weighted portfolio often does as well out of sample as
+      an optimised one (DeMiguel, Garlappi and Uppal, 2009). And imposing constraints that are, in theory, wrong, such as
+      banning short sales, often makes portfolios better (Jagannathan and Ma, 2003). Both results reflect the same
+      underlying problem.</p>
+
+    <h2>Two families of fixes</h2>
+    <ul class="plain">
+      <li><strong>Shrinkage and spectral cleaning.</strong> Methods such as Ledoit–Wolf shrinkage and random-matrix
+        eigenvalue clipping pull extreme estimates toward more sensible values. They assume nothing about which
+        assets are linked. They are cheap, robust and widely used.</li>
+      <li><strong>Network filtering.</strong> Methods such as the graphical lasso and filtered correlation networks
+        (for example TMFG) keep only the strongest direct links between assets and set the rest to zero. They make a
+        strong assumption that most pairs of assets are not directly connected, and in return they reveal structure,
+        such as clusters of closely linked stocks.</li>
+    </ul>
+    <p>The two families are rarely tested against each other on equal terms. Network methods are often benchmarked
+      against the raw, uncleaned matrix, which is an easy target, rather than against the best shrinkage methods.
+      So practitioners have little guidance on which to use.</p>
+
+    <h2>Our starting point: it depends where the structure lives</h2>
+    <p>Asset returns move together for two different reasons:</p>
+    <ul class="plain">
+      <li><strong>Shared exposure to common factors.</strong> Chevron and ConocoPhillips move together not because
+        either affects the other, but because both depend on the oil price. The market as a whole, sectors and styles
+        work the same way.</li>
+      <li><strong>Direct links between particular assets.</strong> Some pairs are connected in ways that do not run
+        through any broad factor, for example through supply chains, shared customers or substitution.</li>
+    </ul>
+    <p>We expect shrinkage to do well when factors dominate, and network filters to do well when direct links
+      dominate. Real markets are a mix, and we expect sector-like structure to be the hardest case for network filters.
+      If that is right, the useful question is not which method is better, but which kind of market you are in.</p>
+
+    <h2>Why it matters for investors</h2>
+    <ul class="plain">
+      <li><strong>Choosing tools:</strong> asset owners and managers using minimum-variance, risk-parity or
+        diversification strategies need to know which cleaning method suits their asset universe, not just which one
+        did best in someone else's backtest.</li>
+      <li><strong>Hidden costs:</strong> a poorly matched method may not show up as higher measured risk. It can show
+        up instead as unstable weights, higher turnover and higher trading costs.</li>
+      <li><strong>Reading market structure:</strong> knowing how much of a market's co-movement is driven by broad
+        factors and how much by direct links is useful in its own right, for risk management and for diversification.</li>
+    </ul>
+
+    <p class="aside">This note describes a research question, not results. The study is under way, and we will report
+      what we find, including if it shows that one family of methods wins everywhere.</p>
+
+    <h2>Further reading</h2>
+    <ul class="sources">
+      <li>Michaud, R. (1989). "The Markowitz optimization enigma: is 'optimized' optimal?" <em>Financial Analysts Journal</em>, 45(1).</li>
+      <li>DeMiguel, V., L. Garlappi and R. Uppal (2009). "Optimal versus naive diversification: how inefficient is the 1/N portfolio strategy?" <em>Review of Financial Studies</em>, 22(5).</li>
+      <li>Jagannathan, R. and T. Ma (2003). "Risk reduction in large portfolios: why imposing the wrong constraints helps." <em>Journal of Finance</em>, 58(4).</li>
+      <li>Ledoit, O. and M. Wolf (2017). "Nonlinear shrinkage of the covariance matrix for portfolio selection: Markowitz meets Goldilocks." <em>Review of Financial Studies</em>, 30(12).</li>
+      <li>Massara, G. P., T. Di Matteo and T. Aste (2017). "Network filtering for big data: triangulated maximally filtered graph." <em>Journal of Complex Networks</em>, 5(2).</li>
+    </ul>
+  </article>
+</main>
+
+<footer class="wrap footer">
+  <p>© <span id="year">2026</span> Samuel A. Edet. Views are my own and do not represent the World Bank Group or IFC.</p>
+</footer>
+<script src="../site.js"></script>
+</body>
+</html>
