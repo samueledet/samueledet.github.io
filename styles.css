@@ -168,3 +168,20 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
 .article .hero-links { margin-top: 8px; }
 .notes-teaser { padding-bottom: 64px; }
 .teaser-head { display: flex; justify-content: space-between; align-items: baseline; }
+
+/* article bar charts: one series, value labels in text ink */
+.chart { margin: 32px 0; padding: 20px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.chart figcaption strong { display: block; font-size: 1rem; }
+.chart figcaption span { display: block; color: var(--muted); font-size: .88rem; margin-bottom: 16px; }
+.bars { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: 170px 1fr 56px; align-items: center; gap: 12px; font-size: .9rem; }
+.bar-label { color: var(--muted); }
+.bar-track { height: 18px; }
+.bar { display: block; height: 100%; width: calc(var(--v) / var(--max, 100) * 100%); min-width: 2px; background: var(--accent);
+  border-radius: 0 4px 4px 0; }
+.bars[data-max="20"] .bar { --max: 20; }
+.bar-row:hover .bar { filter: brightness(1.15); }
+.bar-val { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
+.chart-note { color: var(--muted); font-size: .85rem; margin: 14px 0 0; }
+@media (max-width: 760px) { .bar-row { grid-template-columns: 110px 1fr 52px; gap: 8px; font-size: .85rem; } .chart { padding: 16px; } }
+.notes-teaser .note + .note { margin-top: 12px; }
