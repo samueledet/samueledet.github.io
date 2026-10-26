@@ -200,6 +200,8 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
 /* header facts: five cards */
 .hero .facts { grid-template-columns: repeat(5, 1fr); }
 @media (max-width: 760px) {
-  .hero .facts { grid-template-columns: repeat(2, 1fr); }
-  .hero .facts li:last-child { grid-column: 1 / -1; }
+  .hero .facts { grid-template-columns: repeat(5, 1fr); margin-top: 32px; }
+  .hero .facts li { padding: 12px 8px; }
+  .hero .facts strong { font-size: 1.05rem; }
+  .hero .facts span { font-size: .7rem; line-height: 1.35; display: block; }
 }
