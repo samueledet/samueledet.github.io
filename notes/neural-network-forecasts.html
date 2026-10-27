@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Forecast the Risk, Not the Return · Market &amp; Policy Notes</title>
-<meta name="description" content="What recurrent neural networks can and cannot forecast in 11 stock markets, 2013–2025: daily direction no, volatility yes.">
+<meta name="description" content="What recurrent neural networks can and cannot forecast in 11 stock markets, 2013–2025: market direction no, even with rich inputs; volatility yes.">
 <meta property="og:title" content="Forecast the risk, not the return: what neural networks can predict in stock markets">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,12 +37,13 @@
     <p class="byline">Samuel Edet · January 2026 · revisiting my 2017 paper on recurrent neural networks and the S&amp;P 500, now tested in 11 markets, 2013–2025</p>
 
     <p class="lede">In 2017 I asked whether recurrent neural networks could predict the daily direction of the
-      S&amp;P 500. Nine years later, with a stricter test and 11 markets, the answer is no. The same networks are,
-      however, the best of the models tested at forecasting how <em>volatile</em> markets will be, and that forecast is useful:
-      it cut the worst losses in 10 of 11 markets.</p>
+      S&amp;P 500. Nine years later, with a stricter test, 11 markets and a rich set of market, macro and
+      cross-asset inputs, the answer is still no. The same networks are, however, the best of the models tested at
+      forecasting how <em>volatile</em> markets will be, and that forecast is useful: it cut the worst losses in 10 of
+      11 markets.</p>
 
     <ul class="facts">
-      <li><strong>0 of 11</strong><span>markets where the network beat "always predict up" by more than 0.3 percentage points</span></li>
+      <li><strong>10 of 11</strong><span>markets where no model beat "always predict up" on next month's direction</span></li>
       <li><strong>10 of 11</strong><span>markets where the network was the most accurate volatility forecaster tested</span></li>
       <li><strong>21%</strong><span>median reduction in volatility forecast error against last month's volatility</span></li>
       <li><strong>10 of 11</strong><span>markets where volatility targeting reduced the maximum drawdown</span></li>
@@ -61,27 +62,47 @@
     <p>The study covers the main stock index of five developed markets (United States, Japan, United Kingdom,
       Germany, Australia) and six emerging markets (Brazil, Mexico, India, China, South Africa, Indonesia). For
       each year from 2013 to 2025, every model is trained only on data from earlier years and then forecasts each
-      day of that year, about 3,200 trading days per market. An LSTM network, using the past month of returns and
-      volatility, competes with simple benchmarks on two tasks: will the index rise tomorrow, and how volatile will the
-      next week be?</p>
+      day of that year, about 3,200 trading days per market. All settings were fixed in advance.</p>
+    <ul class="plain">
+      <li><strong>Direction:</strong> will the index be higher in a month (20 trading days)? The models see 26 to 28
+        inputs: the market's own momentum over one week to one year, its trend and drawdown, its recent volatility,
+        the VIX and the variance risk premium, US yields and the term spread, Treasury, corporate bond, gold and
+        dollar returns, and the latest US close (for the US itself, same-day European and Asian returns). Four models compete: logistic regression, gradient-boosted trees,
+        an LSTM network and the average of the three.</li>
+      <li><strong>Volatility:</strong> how volatile will the next week be? An LSTM using the past month of the
+        market's own returns competes with last month's volatility, the HAR model and GARCH.</li>
+    </ul>
 
     <h2>Direction: no better than "always up"</h2>
-    <p>Stock indices rise on slightly more than half of all days, so always predicting "up" is right 51–55% of the
-      time. The network never did meaningfully better. Its edge ranged from −2.2 to +0.3 percentage points, and
-      a trading rule built on its signals had a lower Sharpe ratio than buy and hold in 9 of 11 markets. A US test
-      over 2020–2025 told the same story: the networks were right 49–50% of the time, against 55% for "always up".</p>
+    <p>Markets rise in most months, so always predicting "up" over the next month was right 54–70% of the time. That
+      is the bar a model has to clear, and with all inputs and all four models, the best of them failed to clear it
+      in 10 of 11 markets. Only in Brazil did the models do better, and one success among 11 markets is about what
+      chance alone would produce.</p>
 
     <table class="cmp">
-      <caption>Predicting tomorrow's direction, 2013–2025</caption>
-      <thead><tr><th scope="col"></th><th scope="col">Developed (5)</th><th scope="col">Emerging (6)</th></tr></thead>
+      <caption>Predicting next month's direction, 2013–2025: share of days called correctly</caption>
+      <thead><tr><th scope="col">Market</th><th scope="col">Always up</th><th scope="col">LSTM</th><th scope="col">Average of models</th><th scope="col">Best model</th></tr></thead>
       <tbody>
-        <tr><th scope="row">Accuracy of "always up"</th><td>53.5–54.7%</td><td>50.8–54.0%</td></tr>
-        <tr><th scope="row">Accuracy of the LSTM</th><td>52.0–54.7%</td><td>50.3–53.8%</td></tr>
-        <tr><th scope="row">Rule beats buy and hold (Sharpe)</th><td>1 of 5</td><td>1 of 6</td></tr>
+        <tr><th scope="row">United States</th><td>69.7%</td><td>57.1%</td><td>62.3%</td><td>69.3%</td></tr>
+        <tr><th scope="row">India</th><td>61.9%</td><td>55.1%</td><td>59.4%</td><td>59.8%</td></tr>
+        <tr><th scope="row">Japan</th><td>60.5%</td><td>49.4%</td><td>50.6%</td><td>57.2%</td></tr>
+        <tr><th scope="row">Indonesia</th><td>60.1%</td><td>52.6%</td><td>54.0%</td><td>57.0%</td></tr>
+        <tr><th scope="row">Germany</th><td>59.4%</td><td>52.2%</td><td>53.4%</td><td>56.7%</td></tr>
+        <tr><th scope="row">Australia</th><td>58.2%</td><td>55.4%</td><td>56.6%</td><td>56.6%</td></tr>
+        <tr><th scope="row">South Africa</th><td>57.8%</td><td>45.9%</td><td>51.0%</td><td>53.0%</td></tr>
+        <tr><th scope="row">United Kingdom</th><td>55.8%</td><td>53.3%</td><td>54.2%</td><td>54.8%</td></tr>
+        <tr><th scope="row">Mexico</th><td>54.9%</td><td>54.0%</td><td>53.3%</td><td>54.0%</td></tr>
+        <tr><th scope="row">Brazil</th><td>54.8%</td><td>56.3%</td><td>58.8%</td><td>58.8%</td></tr>
+        <tr><th scope="row">China</th><td>53.6%</td><td>44.5%</td><td>45.0%</td><td>49.0%</td></tr>
       </tbody>
     </table>
-    <p class="chart-note">The two markets where the rule's Sharpe ratio came out higher (US and Indonesia) had no accuracy edge, so the difference
-      is best read as chance.</p>
+    <p class="chart-note">Best model: the most accurate of logistic regression, gradient-boosted trees, LSTM and their average, chosen
+      after the fact, which flatters it.</p>
+
+    <p>Trading on the signals tells the same story. A rule that stays fully invested when the LSTM expects a rise and
+      half invested otherwise had a higher Sharpe ratio than buy and hold in 5 of 11 markets, by small margins, and the
+      difference was not statistically significant in any of them. Next-day direction, tested separately, was no more
+      predictable: on 2020–2025 US data the networks were right 49–50% of the time, against 55% for "always up".</p>
 
     <h2>Volatility: where the networks earn their keep</h2>
     <p>Volatility is persistent. Turbulent weeks follow turbulent weeks, and that structure is something a network can
@@ -114,7 +135,9 @@
       it is low, aiming for a steady 15% annual volatility. Run this way, after trading costs, the strategy cut the
       largest peak-to-trough loss in 10 of 11 markets, typically by 6 to 16 percentage points. It did not raise
       risk-adjusted returns: the Sharpe ratio beat buy and hold only in India, so the benefit is a smoother ride, not a
-      higher return.</p>
+      higher return. Combining volatility targeting with the direction signals did not change this: it again cut
+      drawdowns in every market, but beat buy and hold's Sharpe ratio only in the US, Brazil and India, and
+      significantly only in Brazil.</p>
 
     <table class="cmp">
       <caption>Maximum drawdown, 2013–2025: buy and hold against volatility targeting with network forecasts</caption>
@@ -137,8 +160,8 @@
 
     <h2>What it means</h2>
     <ul class="plain">
-      <li><strong>Investors and asset managers:</strong> be sceptical of machine-learning claims to predict daily market
-        direction. Results like the 2017 ones usually come from a flaw in the test design. The test that matters is
+      <li><strong>Investors and asset managers:</strong> be sceptical of machine-learning claims to predict market
+        direction, even with rich inputs. Results like the 2017 ones usually come from a flaw in the test design. The test that matters is
         out of sample, in time order, against "always up".</li>
       <li><strong>Risk managers:</strong> neural networks add real value for volatility forecasting, which feeds
         Value at Risk, margin and position limits. They beat both the simple benchmark and HAR in most markets.</li>
@@ -147,14 +170,10 @@
         return.</li>
     </ul>
 
-    <p class="aside">The study uses daily closing prices of price indices in local currency. Networks use only each
-      market's own price history. A separate S&amp;P 500 test with richer inputs (VIX, yields, credit, gold, the
-      dollar and foreign markets) and a one-month horizon raised the Sharpe ratio of a volatility-targeted strategy
-      from 0.80 to 0.90 and halved its worst drawdown, but not significantly. Replicated unchanged in the other 10
-      markets, it again cut drawdowns everywhere but beat buy and hold's Sharpe ratio only in Brazil and India.
-      Model settings were fixed in advance, not tuned on the test years.
-      Results cover one network design and one period, 2013–2025, which includes the 2020 crash and the 2022
-      rate shock.</p>
+    <p class="aside">The study uses daily closing prices of price indices in local currency, so dividends are
+      excluded. Model settings were fixed in advance, not tuned on the test years; other designs or inputs, such as
+      company fundamentals, analyst revisions or fund flows, might do better. Results cover one period, 2013–2025,
+      which includes the 2020 crash and the 2022 rate shock, both of which favour volatility management.</p>
 
     <div class="hero-links">
       <a class="btn primary" href="https://github.com/samueledet/nn-market-forecasts">Code and full results on GitHub</a>
@@ -164,10 +183,14 @@
     <ul class="sources">
       <li>Edet, S. (2017). "Recurrent Neural Networks in Forecasting S&amp;P 500 Index." SSRN working paper.
         <a href="https://ssrn.com/abstract=3001046">ssrn.com/abstract=3001046</a></li>
-      <li>Method: walk-forward evaluation, 2013–2025, with models retrained each year on all earlier data. LSTM network (one
-        layer, 32 units, 22-day input window) against "always up", logistic regression, last month's volatility,
-        HAR (Corsi, 2009) and GARCH(1,1). Volatility target: 15% a year, maximum exposure 1.5 times.</li>
-      <li>Data: daily closing levels of 11 stock indices from Yahoo Finance, 2005–2025.</li>
+      <li>Method: walk-forward evaluation, 2013–2025, with models retrained each year on all earlier data; training
+        targets that overlap the test year are dropped. Direction: one-month horizon, logistic regression,
+        gradient-boosted trees and an LSTM (60-day input window) and their average, against "always up".
+        Volatility: LSTM (22-day window) against last month's volatility, HAR (Corsi, 2009) and GARCH(1,1).
+        Volatility target: 15% a year, maximum exposure 1.5 times, 5 basis points cost per unit traded.
+        Significance: block bootstrap of the Sharpe ratio difference.</li>
+      <li>Data: daily closing levels of 11 stock indices, plus the VIX, US Treasury yields, the dollar index and
+        Treasury, corporate bond and gold ETFs, from Yahoo Finance, 2004–2025.</li>
     </ul>
   </article>
 </main>
