@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Forecast the Risk, Not the Return · Market &amp; Policy Notes</title>
-<meta name="description" content="What machine learning can and cannot forecast in 11 stock markets, 2013–2025, with rich market, macro and cross-asset inputs: direction no, volatility yes.">
-<meta property="og:title" content="Forecast the risk, not the return: what machine learning can predict in stock markets">
+<meta name="description" content="What recurrent neural networks can and cannot forecast in 11 stock markets, 2013–2025: market direction no, even with rich inputs; volatility yes.">
+<meta property="og:title" content="Forecast the risk, not the return: what neural networks can predict in stock markets">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
@@ -33,21 +33,20 @@
   <article class="wrap article">
     <a class="back" href="./">← Market &amp; Policy Notes</a>
     <p class="eyebrow">Machine learning · Equity markets · Risk</p>
-    <h1>Forecast the risk, not the return: what machine learning can predict in stock markets</h1>
+    <h1>Forecast the risk, not the return: what neural networks can predict in stock markets</h1>
     <p class="byline">Samuel Edet · January 2026 · revisiting my 2017 paper on recurrent neural networks and the S&amp;P 500, now tested in 11 markets, 2013–2025</p>
 
-    <p class="lede">In 2017 I asked whether recurrent neural networks could predict the direction of the S&amp;P 500.
-      Nine years later, with a stricter test, 11 markets and a rich set of market, macro and cross-asset inputs, the
-      answer is still no, for neural networks and for every other model tested. Volatility is different: the same
-      inputs cut volatility forecast errors by a median 19%, though a simple combination of models beats the network
-      on its own. Used to size positions, those forecasts reduced the worst losses in most markets, but did not
-      reliably beat buy and hold.</p>
+    <p class="lede">In 2017 I asked whether recurrent neural networks could predict the daily direction of the
+      S&amp;P 500. Nine years later, with a stricter test, 11 markets and a rich set of market, macro and
+      cross-asset inputs, the answer is still no. The same networks are, however, the best of the models tested at
+      forecasting how <em>volatile</em> markets will be, and that forecast is useful: it cut the worst losses in 10 of
+      11 markets.</p>
 
     <ul class="facts">
       <li><strong>10 of 11</strong><span>markets where no model beat "always predict up" on next month's direction</span></li>
-      <li><strong>19%</strong><span>median cut in volatility forecast error against last month's volatility</span></li>
-      <li><strong>10 of 11</strong><span>markets where the combined forecast beat the standard HAR volatility model</span></li>
-      <li><strong>9 of 11</strong><span>markets where volatility targeting reduced the maximum drawdown</span></li>
+      <li><strong>10 of 11</strong><span>markets where the network was the most accurate volatility forecaster tested</span></li>
+      <li><strong>21%</strong><span>median reduction in volatility forecast error against last month's volatility</span></li>
+      <li><strong>10 of 11</strong><span>markets where volatility targeting reduced the maximum drawdown</span></li>
     </ul>
 
     <h2>Revisiting the 2017 result</h2>
@@ -55,24 +54,23 @@
       time. A review of the code found that this came from how the prediction target was built, not from the
       networks. The label was whether today's return beat yesterday's, and yesterday's return was also an input,
       so the label was partly predictable even from pure noise. On clean data, a simple logistic regression
-      matches the 74%, and random numbers reach 65%.</p>
-    <p>That raised two better questions. With a sound test and much richer information, can machine learning
-      predict where markets are heading? And if not the direction of returns, what <em>can</em> it forecast?</p>
+      matches the 74%, and random numbers reach 65%. When the target is redefined as whether the market rises
+      tomorrow, and the model is tested on later years it has not seen, accuracy falls to about 49–54%.</p>
+    <p>That raised a better question: if not the direction of returns, what <em>can</em> these networks forecast?</p>
 
     <h2>How the test works</h2>
     <p>The study covers the main stock index of five developed markets (United States, Japan, United Kingdom,
       Germany, Australia) and six emerging markets (Brazil, Mexico, India, China, South Africa, Indonesia). For
       each year from 2013 to 2025, every model is trained only on data from earlier years and then forecasts each
       day of that year, about 3,200 trading days per market. All settings were fixed in advance.</p>
-    <p>Every model sees the same 26 to 28 inputs: the market's own momentum over one week to one year, its trend and
-      drawdown, its recent volatility, the VIX and the variance risk premium, US yields and the term spread,
-      Treasury, corporate bond, gold and dollar returns, and the latest US close (for the US itself, same-day European
-      and Asian returns). Each input is taken as it was known at the market's close.</p>
     <ul class="plain">
-      <li><strong>Direction:</strong> will the index be higher in a month (20 trading days)? Logistic regression,
-        gradient-boosted trees, an LSTM network and the average of the three, against "always up".</li>
-      <li><strong>Volatility:</strong> how volatile will the next week be? A linear model, gradient-boosted trees, an
-        LSTM and their average, against three standard benchmarks: last month's volatility, the HAR model and GARCH.</li>
+      <li><strong>Direction:</strong> will the index be higher in a month (20 trading days)? The models see 26 to 28
+        inputs: the market's own momentum over one week to one year, its trend and drawdown, its recent volatility,
+        the VIX and the variance risk premium, US yields and the term spread, Treasury, corporate bond, gold and
+        dollar returns, and the latest US close (for the US itself, same-day European and Asian returns). Four models compete: logistic regression, gradient-boosted trees,
+        an LSTM network and the average of the three.</li>
+      <li><strong>Volatility:</strong> how volatile will the next week be? An LSTM using the past month of the
+        market's own returns competes with last month's volatility, the HAR model and GARCH.</li>
     </ul>
 
     <h2>Direction: no better than "always up"</h2>
@@ -103,97 +101,79 @@
 
     <p>Trading on the signals tells the same story. A rule that stays fully invested when the LSTM expects a rise and
       half invested otherwise had a higher Sharpe ratio than buy and hold in 5 of 11 markets, by small margins, and the
-      difference was not statistically significant in any of them.</p>
+      difference was not statistically significant in any of them. Next-day direction, tested separately, was no more
+      predictable: on 2020–2025 US data the networks were right 49–50% of the time, against 55% for "always up".</p>
 
-    <h2>Volatility: forecastable, but the network is not the best tool</h2>
-    <p>Volatility is persistent. Turbulent weeks follow turbulent weeks, and option prices, captured by the VIX,
-      carry the market's own view of the risk ahead. With the rich inputs, a simple average of the linear model,
-      the trees and the LSTM reduced the squared error of next-week volatility forecasts by a median 19% against last
-      month's volatility, and beat the standard HAR model in 10 of 11 markets.</p>
-    <p>The network on its own did less well. Its median gain was 13%, below HAR's 14%, and it beat HAR in only 5 of
-      11 markets. A plain linear model using the same inputs did better (17%). With many inputs and a limited history,
-      the network overfits; averaging it with simpler models cancels part of that error. GARCH, the textbook tool, did
-      slightly worse than last month's volatility.</p>
-
-    <table class="cmp">
-      <caption>Next-week volatility forecasts, 2013–2025: median across 11 markets</caption>
-      <thead><tr><th scope="col">Model</th><th scope="col">Error cut vs last month's volatility</th><th scope="col">Markets where it beats HAR</th></tr></thead>
-      <tbody>
-        <tr><th scope="row">Average of linear, trees and LSTM</th><td>19%</td><td>10 of 11</td></tr>
-        <tr><th scope="row">Linear model, all inputs</th><td>17%</td><td>7 of 11</td></tr>
-        <tr><th scope="row">HAR (benchmark)</th><td>14%</td><td>–</td></tr>
-        <tr><th scope="row">Gradient-boosted trees</th><td>14%</td><td>7 of 11</td></tr>
-        <tr><th scope="row">LSTM network</th><td>13%</td><td>5 of 11</td></tr>
-        <tr><th scope="row">GARCH(1,1)</th><td>−3%</td><td>0 of 11</td></tr>
-      </tbody>
-    </table>
+    <h2>Volatility: where the networks earn their keep</h2>
+    <p>Volatility is persistent. Turbulent weeks follow turbulent weeks, and that structure is something a network can
+      learn. Measured against the simplest forecast, last month's volatility, the LSTM reduced forecast errors by
+      10% to 30%. It beat the standard HAR model (median 14%) in 10 of 11 markets. A GARCH model, the textbook
+      tool, did no better than last month's volatility on this test.</p>
 
     <figure class="chart" aria-labelledby="c1-title">
-      <figcaption id="c1-title"><strong>Volatility forecasts improve most in developed markets</strong>
-        <span>Reduction in squared error of next-week (log) volatility forecasts against last month's volatility, average of linear, trees and LSTM, 2013–2025</span></figcaption>
-      <div class="bars" style="--max:40">
-        <div class="bar-row"><span class="bar-label">United States</span><span class="bar-track"><span class="bar" style="--v:35.3"></span></span><span class="bar-val">35%</span></div>
-        <div class="bar-row"><span class="bar-label">Germany</span><span class="bar-track"><span class="bar" style="--v:28.4"></span></span><span class="bar-val">28%</span></div>
-        <div class="bar-row"><span class="bar-label">United Kingdom</span><span class="bar-track"><span class="bar" style="--v:26"></span></span><span class="bar-val">26%</span></div>
-        <div class="bar-row"><span class="bar-label">South Africa (EM)</span><span class="bar-track"><span class="bar" style="--v:22.5"></span></span><span class="bar-val">23%</span></div>
-        <div class="bar-row"><span class="bar-label">Australia</span><span class="bar-track"><span class="bar" style="--v:19"></span></span><span class="bar-val">19%</span></div>
-        <div class="bar-row"><span class="bar-label">Japan</span><span class="bar-track"><span class="bar" style="--v:18.9"></span></span><span class="bar-val">19%</span></div>
-        <div class="bar-row"><span class="bar-label">Indonesia (EM)</span><span class="bar-track"><span class="bar" style="--v:16.1"></span></span><span class="bar-val">16%</span></div>
-        <div class="bar-row"><span class="bar-label">India (EM)</span><span class="bar-track"><span class="bar" style="--v:15.4"></span></span><span class="bar-val">15%</span></div>
-        <div class="bar-row"><span class="bar-label">China (EM)</span><span class="bar-track"><span class="bar" style="--v:13.3"></span></span><span class="bar-val">13%</span></div>
-        <div class="bar-row"><span class="bar-label">Mexico (EM)</span><span class="bar-track"><span class="bar" style="--v:13.1"></span></span><span class="bar-val">13%</span></div>
-        <div class="bar-row"><span class="bar-label">Brazil (EM)</span><span class="bar-track"><span class="bar" style="--v:6.3"></span></span><span class="bar-val">6%</span></div>
+      <figcaption id="c1-title"><strong>Network volatility forecasts beat the simple benchmark everywhere</strong>
+        <span>Reduction in squared error of next-week (log) volatility forecasts against last month's volatility, LSTM, 2013–2025</span></figcaption>
+      <div class="bars" style="--max:35">
+        <div class="bar-row"><span class="bar-label">United States</span><span class="bar-track"><span class="bar" style="--v:30"></span></span><span class="bar-val">30%</span></div>
+        <div class="bar-row"><span class="bar-label">Germany</span><span class="bar-track"><span class="bar" style="--v:26.6"></span></span><span class="bar-val">27%</span></div>
+        <div class="bar-row"><span class="bar-label">United Kingdom</span><span class="bar-track"><span class="bar" style="--v:25.4"></span></span><span class="bar-val">25%</span></div>
+        <div class="bar-row"><span class="bar-label">Japan</span><span class="bar-track"><span class="bar" style="--v:24"></span></span><span class="bar-val">24%</span></div>
+        <div class="bar-row"><span class="bar-label">South Africa (EM)</span><span class="bar-track"><span class="bar" style="--v:22.7"></span></span><span class="bar-val">23%</span></div>
+        <div class="bar-row"><span class="bar-label">Australia</span><span class="bar-track"><span class="bar" style="--v:21"></span></span><span class="bar-val">21%</span></div>
+        <div class="bar-row"><span class="bar-label">India (EM)</span><span class="bar-track"><span class="bar" style="--v:18.6"></span></span><span class="bar-val">19%</span></div>
+        <div class="bar-row"><span class="bar-label">Indonesia (EM)</span><span class="bar-track"><span class="bar" style="--v:18.4"></span></span><span class="bar-val">18%</span></div>
+        <div class="bar-row"><span class="bar-label">China (EM)</span><span class="bar-track"><span class="bar" style="--v:14.1"></span></span><span class="bar-val">14%</span></div>
+        <div class="bar-row"><span class="bar-label">Mexico (EM)</span><span class="bar-track"><span class="bar" style="--v:13.4"></span></span><span class="bar-val">13%</span></div>
+        <div class="bar-row"><span class="bar-label">Brazil (EM)</span><span class="bar-track"><span class="bar" style="--v:9.8"></span></span><span class="bar-val">10%</span></div>
       </div>
-      <p class="chart-note">EM = emerging market. The US-based inputs, VIX above all, describe US risk directly; for other markets
-        they are a proxy, which is one reason the gains are smaller there. In Brazil, HAR alone was better (10%).</p>
+      <p class="chart-note">EM = emerging market. In Brazil the HAR model was slightly better (10.4%). Gains are larger in developed markets,
+        where volatility follows more regular patterns.</p>
     </figure>
 
     <h2>Putting the forecast to work: volatility targeting</h2>
     <p>A volatility forecast can be used to size positions: hold less of the market when the forecast is high and more when
-      it is low, aiming for a steady 15% annual volatility. Run this way with the combined forecast, after trading costs,
-      the strategy cut the largest peak-to-trough loss in 9 of 11 markets, typically by 6 to 16 percentage points. In
-      the UK and Mexico the drawdown was larger. It did not reliably raise risk-adjusted returns: the Sharpe ratio was
-      higher than buy and hold's in 3 of 11 markets (United States, India and China), and not significantly in any.
-      Adding the direction signals on top did not change this. The benefit is a smoother ride in most markets, not a
-      higher return.</p>
+      it is low, aiming for a steady 15% annual volatility. Run this way, after trading costs, the strategy cut the
+      largest peak-to-trough loss in 10 of 11 markets, typically by 6 to 16 percentage points. It did not raise
+      risk-adjusted returns: the Sharpe ratio beat buy and hold only in India, so the benefit is a smoother ride, not a
+      higher return. Combining volatility targeting with the direction signals did not change this: it again cut
+      drawdowns in every market, but beat buy and hold's Sharpe ratio only in the US, Brazil and India, and
+      significantly only in Brazil.</p>
 
     <table class="cmp">
-      <caption>Volatility targeting with the combined forecast, 2013–2025</caption>
-      <thead><tr><th scope="col">Market</th><th scope="col">Max drawdown, buy and hold</th><th scope="col">Max drawdown, vol. target</th><th scope="col">Sharpe, buy and hold</th><th scope="col">Sharpe, vol. target</th></tr></thead>
+      <caption>Maximum drawdown, 2013–2025: buy and hold against volatility targeting with network forecasts</caption>
+      <thead><tr><th scope="col">Market</th><th scope="col">Buy and hold</th><th scope="col">Volatility target</th></tr></thead>
       <tbody>
-        <tr><th scope="row">China</th><td>−52%</td><td>−37%</td><td>0.22</td><td>0.25</td></tr>
-        <tr><th scope="row">Brazil</th><td>−47%</td><td>−34%</td><td>0.32</td><td>0.24</td></tr>
-        <tr><th scope="row">Indonesia</th><td>−41%</td><td>−35%</td><td>0.34</td><td>0.26</td></tr>
-        <tr><th scope="row">Germany</th><td>−39%</td><td>−29%</td><td>0.47</td><td>0.35</td></tr>
-        <tr><th scope="row">India</th><td>−38%</td><td>−26%</td><td>0.71</td><td>0.73</td></tr>
-        <tr><th scope="row">South Africa</th><td>−38%</td><td>−31%</td><td>0.48</td><td>0.29</td></tr>
-        <tr><th scope="row">United Kingdom</th><td>−37%</td><td>−39%</td><td>0.26</td><td>0.07</td></tr>
-        <tr><th scope="row">Australia</th><td>−37%</td><td>−29%</td><td>0.32</td><td>0.16</td></tr>
-        <tr><th scope="row">Mexico</th><td>−36%</td><td>−39%</td><td>0.19</td><td>−0.02</td></tr>
-        <tr><th scope="row">United States</th><td>−34%</td><td>−24%</td><td>0.80</td><td>0.83</td></tr>
-        <tr><th scope="row">Japan</th><td>−32%</td><td>−26%</td><td>0.57</td><td>0.49</td></tr>
+        <tr><th scope="row">China</th><td>−52%</td><td>−39%</td></tr>
+        <tr><th scope="row">Brazil</th><td>−47%</td><td>−31%</td></tr>
+        <tr><th scope="row">Indonesia</th><td>−41%</td><td>−34%</td></tr>
+        <tr><th scope="row">Germany</th><td>−39%</td><td>−28%</td></tr>
+        <tr><th scope="row">India</th><td>−38%</td><td>−24%</td></tr>
+        <tr><th scope="row">South Africa</th><td>−38%</td><td>−27%</td></tr>
+        <tr><th scope="row">United Kingdom</th><td>−37%</td><td>−38%</td></tr>
+        <tr><th scope="row">Australia</th><td>−37%</td><td>−24%</td></tr>
+        <tr><th scope="row">Mexico</th><td>−36%</td><td>−30%</td></tr>
+        <tr><th scope="row">United States</th><td>−34%</td><td>−22%</td></tr>
+        <tr><th scope="row">Japan</th><td>−32%</td><td>−26%</td></tr>
       </tbody>
     </table>
-    <p class="chart-note">Target 15% a year, holding up to 1.5 times the index, 5 basis points cost per unit traded. Drawdowns measured on
-      daily log returns.</p>
+    <p class="chart-note">Holding up to 1.5 times the index, with 5 basis points cost per unit traded. Drawdowns measured on daily log returns.</p>
 
     <h2>What it means</h2>
     <ul class="plain">
       <li><strong>Investors and asset managers:</strong> be sceptical of machine-learning claims to predict market
-        direction, even with rich inputs. Results like the 2017 ones usually come from a flaw in the test design. The
-        test that matters is out of sample, in time order, against "always up".</li>
-      <li><strong>Risk managers:</strong> volatility forecasts feed Value at Risk, margin and position limits, and
-        better inputs, the VIX above all, improve them clearly. A simple combination of models is more reliable than
-        any single one; a neural network on its own adds little over a linear model with good inputs.</li>
-      <li><strong>Portfolio construction:</strong> volatility targeting is a practical way to limit drawdowns,
-        including in emerging markets with the deepest falls, but it does not work everywhere and is not a source of
-        extra return. Its value is in managing risk.</li>
+        direction, even with rich inputs. Results like the 2017 ones usually come from a flaw in the test design. The test that matters is
+        out of sample, in time order, against "always up".</li>
+      <li><strong>Risk managers:</strong> neural networks add real value for volatility forecasting, which feeds
+        Value at Risk, margin and position limits. They beat both the simple benchmark and HAR in most markets.</li>
+      <li><strong>Portfolio construction:</strong> volatility targeting with good forecasts is a practical way to limit
+        drawdowns, including in emerging markets with the deepest falls. It manages risk; it is not a source of extra
+        return.</li>
     </ul>
 
     <p class="aside">The study uses daily closing prices of price indices in local currency, so dividends are
       excluded. Model settings were fixed in advance, not tuned on the test years; other designs or inputs, such as
-      local option-implied volatility, company fundamentals or fund flows, might do better. Results cover one period,
-      2013–2025, which includes the 2020 crash and the 2022 rate shock.</p>
+      company fundamentals, analyst revisions or fund flows, might do better. Results cover one period, 2013–2025,
+      which includes the 2020 crash and the 2022 rate shock, both of which favour volatility management.</p>
 
     <div class="hero-links">
       <a class="btn primary" href="https://github.com/samueledet/nn-market-forecasts">Code and full results on GitHub</a>
@@ -204,12 +184,11 @@
       <li>Edet, S. (2017). "Recurrent Neural Networks in Forecasting S&amp;P 500 Index." SSRN working paper.
         <a href="https://ssrn.com/abstract=3001046">ssrn.com/abstract=3001046</a></li>
       <li>Method: walk-forward evaluation, 2013–2025, with models retrained each year on all earlier data; training
-        targets that overlap the test year are dropped. Direction: one-month horizon; logistic regression,
-        gradient-boosted trees, an LSTM (60-day input window) and their average, against "always up". Volatility:
-        next-week log realised variance; linear regression, gradient-boosted trees, an LSTM and their average,
-        against last month's volatility, HAR (Corsi, 2009) and GARCH(1,1). Volatility target: 15% a year, maximum
-        exposure 1.5 times, 5 basis points cost per unit traded. Significance: block bootstrap of the Sharpe ratio
-        difference.</li>
+        targets that overlap the test year are dropped. Direction: one-month horizon, logistic regression,
+        gradient-boosted trees and an LSTM (60-day input window) and their average, against "always up".
+        Volatility: LSTM (22-day window) against last month's volatility, HAR (Corsi, 2009) and GARCH(1,1).
+        Volatility target: 15% a year, maximum exposure 1.5 times, 5 basis points cost per unit traded.
+        Significance: block bootstrap of the Sharpe ratio difference.</li>
       <li>Data: daily closing levels of 11 stock indices, plus the VIX, US Treasury yields, the dollar index and
         Treasury, corporate bond and gold ETFs, from Yahoo Finance, 2004–2025.</li>
     </ul>
