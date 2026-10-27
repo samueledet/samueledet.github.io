@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not All Crashes Are Alike · Market &amp; Policy Notes</title>
+<meta name="description" content="Jumps and volatility in 11 developed and emerging stock markets, 2005–2025: normal models understate tail risk, and some emerging markets jump less often but harder.">
+<meta property="og:title" content="Not all crashes are alike: jumps and volatility in developed and emerging stock markets">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<script>
+  try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="../">Samuel A. Edet</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="../#research">Research</a>
+      <a href="./" aria-current="page">Market &amp; Policy Notes</a>
+      <a href="../#experience">Experience</a>
+      <a href="../#projects">Projects</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="theme" type="button" aria-label="Switch light or dark theme">◐</button>
+  </div>
+</header>
+
+<main>
+  <article class="wrap article">
+    <a class="back" href="./">← Market &amp; Policy Notes</a>
+    <p class="eyebrow">Risk · Equity markets · Emerging markets</p>
+    <h1>Not all crashes are alike: jumps and volatility in developed and emerging stock markets</h1>
+    <p class="byline">Samuel Edet · October 2026 · based on daily index data for 11 markets, 2005–2025</p>
+
+    <p class="lede">Standard risk models assume that daily stock returns follow a bell curve. They do not. In 11 major
+      markets, the normal model understates one-day tail risk by up to 45%. Most of the extra risk comes from
+      volatility arriving in waves, but sudden jumps matter too. In several large emerging markets, jumps come less
+      often but hit harder.</p>
+
+    <ul class="facts">
+      <li><strong>9–45%</strong><span>by which a normal model understates the 1% one-day Value at Risk</span></li>
+      <li><strong>11 of 11</strong><span>markets where volatility clustering explains more than jumps do</span></li>
+      <li><strong>11–29%</strong><span>of return variance comes from jumps once clustering is allowed for</span></li>
+      <li><strong>4.5</strong><span>jumps of more than 3% a year in China's market, against 0.2 in the US</span></li>
+    </ul>
+
+    <h2>The question</h2>
+    <p>Many tools in finance, from the Black–Scholes option formula to simple Value-at-Risk models, assume that
+      returns are normally distributed with a constant volatility. In practice, markets have more very bad and very
+      good days than a bell curve allows. There are two classic explanations. Either prices sometimes <em>jump</em>,
+      on news, crises or policy surprises, or volatility <em>shifts</em>, so that calm and turbulent periods come in
+      runs. The two have different implications for risk management, and they may differ between developed and
+      emerging markets.</p>
+    <p>This note fits five models to daily returns of the main stock index in five developed markets (United States,
+      Japan, United Kingdom, Germany, Australia) and six emerging markets (Brazil, Mexico, India, China, South Africa,
+      Indonesia) from 2005 to 2025: the normal benchmark, two jump-diffusion models (Merton and Kou), a GARCH model of
+      volatility clustering, and a GARCH model with jumps.</p>
+
+    <h2>The normal model misses the tails everywhere</h2>
+    <p>Daily returns in every market have far fatter tails than a normal distribution. A risk manager who used the
+      normal model to set the 1% one-day Value at Risk, the loss exceeded on one day in a hundred, would have set it
+      too low in all 11 markets.</p>
+
+    <figure class="chart" aria-labelledby="c1-title">
+      <figcaption id="c1-title"><strong>How much a normal model understates tail risk</strong>
+        <span>Shortfall of the normal 1% one-day Value at Risk relative to the actual 1% worst daily return, 2005–2025</span></figcaption>
+      <div class="bars" style="--max:50">
+        <div class="bar-row"><span class="bar-label">China (EM)</span><span class="bar-track"><span class="bar" style="--v:45"></span></span><span class="bar-val">45%</span></div>
+        <div class="bar-row"><span class="bar-label">Indonesia (EM)</span><span class="bar-track"><span class="bar" style="--v:36"></span></span><span class="bar-val">36%</span></div>
+        <div class="bar-row"><span class="bar-label">India (EM)</span><span class="bar-track"><span class="bar" style="--v:28"></span></span><span class="bar-val">28%</span></div>
+        <div class="bar-row"><span class="bar-label">United States</span><span class="bar-track"><span class="bar" style="--v:27"></span></span><span class="bar-val">27%</span></div>
+        <div class="bar-row"><span class="bar-label">United Kingdom</span><span class="bar-track"><span class="bar" style="--v:27"></span></span><span class="bar-val">27%</span></div>
+        <div class="bar-row"><span class="bar-label">Mexico (EM)</span><span class="bar-track"><span class="bar" style="--v:27"></span></span><span class="bar-val">27%</span></div>
+        <div class="bar-row"><span class="bar-label">Germany</span><span class="bar-track"><span class="bar" style="--v:26"></span></span><span class="bar-val">26%</span></div>
+        <div class="bar-row"><span class="bar-label">Australia</span><span class="bar-track"><span class="bar" style="--v:25"></span></span><span class="bar-val">25%</span></div>
+        <div class="bar-row"><span class="bar-label">Japan</span><span class="bar-track"><span class="bar" style="--v:21"></span></span><span class="bar-val">21%</span></div>
+        <div class="bar-row"><span class="bar-label">South Africa (EM)</span><span class="bar-track"><span class="bar" style="--v:16"></span></span><span class="bar-val">16%</span></div>
+        <div class="bar-row"><span class="bar-label">Brazil (EM)</span><span class="bar-track"><span class="bar" style="--v:9"></span></span><span class="bar-val">9%</span></div>
+      </div>
+      <p class="chart-note">EM = emerging market. Brazil's normal VaR is closer to the truth partly because its overall volatility is
+        already high (26% a year), not because its tails are thin.</p>
+    </figure>
+
+    <h2>Waves of volatility matter more than jumps</h2>
+    <p>When markets get turbulent, they tend to stay turbulent for weeks. A GARCH model, which lets volatility rise
+      after large moves and decay slowly, fits the data better than either jump-diffusion model in all 11 markets, even
+      though it has fewer parameters. Models with constant volatility "explain" fat tails partly by mistaking
+      turbulent periods for jumps: fitted that way, the data imply 70 to 280 jumps a year, which is not a plausible
+      description of how markets move.</p>
+
+    <h2>But jumps are real, and their character differs</h2>
+    <p>Allowing for jumps on top of volatility clustering improves the fit in every market, and the combined model is
+      the best of the five everywhere. Once clustering is accounted for, jumps make up a similar share of risk across
+      markets: 11–29% of return variance in developed and emerging markets alike. The average jump is negative
+      everywhere: jumps are mostly falls.</p>
+    <p>What differs is the <em>kind</em> of jump. In the US, UK and Germany, jumps are frequent and small. In China,
+      Brazil, India and Indonesia, they are rarer but much larger, so large discontinuous moves happen several times a
+      year even after allowing for turbulent periods.</p>
+
+    <figure class="chart" aria-labelledby="c2-title">
+      <figcaption id="c2-title"><strong>Large jumps are more common in several emerging markets</strong>
+        <span>Expected number of jumps larger than 3% per year, after allowing for volatility clustering (GARCH with jumps), 2005–2025</span></figcaption>
+      <div class="bars" style="--max:5">
+        <div class="bar-row"><span class="bar-label">China (EM)</span><span class="bar-track"><span class="bar" style="--v:4.49"></span></span><span class="bar-val">4.5</span></div>
+        <div class="bar-row"><span class="bar-label">Brazil (EM)</span><span class="bar-track"><span class="bar" style="--v:2.21"></span></span><span class="bar-val">2.2</span></div>
+        <div class="bar-row"><span class="bar-label">India (EM)</span><span class="bar-track"><span class="bar" style="--v:1.64"></span></span><span class="bar-val">1.6</span></div>
+        <div class="bar-row"><span class="bar-label">Indonesia (EM)</span><span class="bar-track"><span class="bar" style="--v:1.61"></span></span><span class="bar-val">1.6</span></div>
+        <div class="bar-row"><span class="bar-label">Japan</span><span class="bar-track"><span class="bar" style="--v:0.85"></span></span><span class="bar-val">0.9</span></div>
+        <div class="bar-row"><span class="bar-label">United States</span><span class="bar-track"><span class="bar" style="--v:0.2"></span></span><span class="bar-val">0.2</span></div>
+        <div class="bar-row"><span class="bar-label">Mexico (EM)</span><span class="bar-track"><span class="bar" style="--v:0.17"></span></span><span class="bar-val">0.2</span></div>
+        <div class="bar-row"><span class="bar-label">Germany</span><span class="bar-track"><span class="bar" style="--v:0.17"></span></span><span class="bar-val">0.2</span></div>
+        <div class="bar-row"><span class="bar-label">United Kingdom</span><span class="bar-track"><span class="bar" style="--v:0.15"></span></span><span class="bar-val">0.2</span></div>
+        <div class="bar-row"><span class="bar-label">South Africa (EM)</span><span class="bar-track"><span class="bar" style="--v:0.05"></span></span><span class="bar-val">0.1</span></div>
+        <div class="bar-row"><span class="bar-label">Australia</span><span class="bar-track"><span class="bar" style="--v:0"></span></span><span class="bar-val">0.0</span></div>
+      </div>
+      <p class="chart-note">Australia's jumps are estimated as a fixed fall of about 1.6%, so none exceed 3% in the model.</p>
+    </figure>
+
+    <p>"Emerging" is not one category. Mexico and South Africa, with deep and internationally integrated markets,
+      look like developed markets. The analysis does not identify why, but a plausible explanation is that policy
+      interventions, capital-flow reversals and narrower investor bases move prices more abruptly in the markets
+      with large jumps.</p>
+
+    <table class="cmp">
+      <caption>Two kinds of risk, by market group</caption>
+      <thead><tr><th scope="col"></th><th scope="col">Developed (5)</th><th scope="col">Emerging (6)</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Annual volatility</th><td>17–23%</td><td>18–26%</td></tr>
+        <tr><th scope="row">Normal VaR understated by</th><td>21–27%</td><td>9–45%</td></tr>
+        <tr><th scope="row">Jump share of variance</th><td>15–29%</td><td>11–26%</td></tr>
+        <tr><th scope="row">Jumps &gt; 3% a year</th><td>0–0.9</td><td>0.1–4.5</td></tr>
+      </tbody>
+    </table>
+    <p class="chart-note">Ranges across markets in each group. Jump measures from the GARCH-with-jumps model.</p>
+
+    <h2>What it means</h2>
+    <ul class="plain">
+      <li><strong>Risk managers:</strong> normal Value at Risk is too low everywhere, by about a quarter in a typical market.
+        Models with time-varying volatility should be the default. For markets such as China, Brazil, India and
+        Indonesia, add explicit jump or stress scenarios, because volatility models alone respond only after the first
+        large move.</li>
+      <li><strong>Portfolio construction:</strong> volatility is not the whole story when comparing markets. Two markets
+        with similar volatility can carry very different crash risk. Allocations to markets with large jumps deserve a
+        larger tail-risk budget, and position limits that do not rely on recent calm.</li>
+      <li><strong>Option pricing and hedging:</strong> constant-volatility jump models overstate how often markets jump.
+        Hedges and option prices should combine stochastic volatility with a smaller number of larger jumps.</li>
+      <li><strong>Development finance and policymakers:</strong> frequent large jumps are a sign of market fragility.
+        Deeper capital markets, with broader investor bases and predictable policy communication, are likely to
+        reduce them, though this analysis does not test that directly.</li>
+    </ul>
+
+    <p class="aside">Jumps are inferred statistically from daily closing prices, not identified from news, and some
+      of what the models call jumps are better read as fat-tailed shocks. Parameters are assumed constant over 21
+      years, although jump risk varies with market conditions. Index levels are in local currency and exclude
+      dividends. GARCH shocks are assumed normal; heavier-tailed shocks would attribute some jump risk to the shocks
+      themselves.</p>
+
+    <div class="hero-links">
+      <a class="btn primary" href="https://github.com/samueledet/Merton-and-Kou-model">Code and full results on GitHub</a>
+    </div>
+
+    <h2>About the analysis</h2>
+    <ul class="sources">
+      <li>Data: daily closing levels of the S&amp;P 500, Nikkei 225, FTSE 100, DAX, S&amp;P/ASX 200, Ibovespa, IPC,
+        BSE Sensex, SSE Composite, FTSE/JSE Top 40 and Jakarta Composite, January 2005 to December 2025, from Yahoo
+        Finance.</li>
+      <li>Models: geometric Brownian motion; Merton (1976) and Kou (2002) jump-diffusions, with the exact Kou density
+        computed by Fourier inversion; GARCH(1,1) (Bollerslev, 1986); and GARCH(1,1) with Poisson normal jumps. All
+        estimated by maximum likelihood, with parameter-recovery checks on simulated data.</li>
+      <li>Code: <a href="https://github.com/samueledet/Merton-and-Kou-model">github.com/samueledet/Merton-and-Kou-model</a></li>
+    </ul>
+  </article>
+</main>
+
+<footer class="wrap footer">
+  <p>© <span id="year">2026</span> Samuel A. Edet. Views are my own and do not represent the World Bank Group or IFC.</p>
+</footer>
+<script src="../site.js"></script>
+</body>
+</html>
