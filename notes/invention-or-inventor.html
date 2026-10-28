@@ -133,6 +133,32 @@
       US firms also respond only weakly to fee changes. Cash at renewal time is not what decides whether a patent is
       kept.</p>
 
+    <h2>What the patents are worth</h2>
+    <p>Renewal decisions can be turned into money. If an owner keeps paying a fee, the patent must be worth at least
+      that much to them; if they stop, it is worth less. Fitting a standard model of these decisions to each patent's
+      actual fees gives the value of a patent at grant. Domestic owners value their patents more than foreign owners do
+      in the same office, as expected, since the home market is where they sell. The question is whether that home
+      premium is smaller in emerging markets. It is not: at equal quality, small Chinese and Korean firms' patents are
+      worth about twice those of small foreign firms, within the range seen in rich economies. Chinese universities are
+      again the exception, at well under half.</p>
+
+    <table class="cmp">
+      <caption>Value of a domestic owner's patent relative to a foreign owner's in the same office, at equal quality (ratio of median values at grant)</caption>
+      <thead><tr><th scope="col">Office</th><th scope="col">Firms, 1–9</th><th scope="col">Firms, 10–99</th><th scope="col">Firms, 100+</th><th scope="col">Universities</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">China</th><td>1.9</td><td>2.6</td><td>2.4</td><td>0.4</td></tr>
+        <tr><th scope="row">Korea</th><td>1.9</td><td>4.0</td><td>1.6</td><td>3.2</td></tr>
+        <tr><th scope="row">Japan</th><td>3.9</td><td>5.4</td><td>2.5</td><td>7.9</td></tr>
+        <tr><th scope="row">United States</th><td>1.3</td><td>1.9</td><td>1.9</td><td>1.0</td></tr>
+        <tr><th scope="row">Germany</th><td>1.5</td><td>1.1</td><td>1.0</td><td>0.9</td></tr>
+        <tr><th scope="row">United Kingdom</th><td>1.1</td><td>1.6</td><td>1.5</td><td>0.5</td></tr>
+      </tbody>
+    </table>
+    <p class="chart-note">Values from a renewal model fitted to each office's fee schedule, with citations held at the office median. A typical
+      small domestic firm's patent is worth roughly $5,000–30,000 at grant (2010 dollars), but levels depend on the
+      assumed rate at which returns decline, by up to ±75%; the ratios shown change very little. Values cover
+      protection in that office's market only.</p>
+
     <h2>What it means, if it holds</h2>
     <ul class="plain">
       <li><strong>Development finance and investors:</strong> renewal behaviour of emerging-market firms tracks the
@@ -150,9 +176,9 @@
         mostly timing.</li>
     </ul>
 
-    <p class="aside">These are early, descriptive results. Renewal is a proxy for value: turning survival into
-      monetary values requires each office's fee schedule and a structural model of renewal decisions, which is the
-      next step. Citations do not capture every aspect of quality. Patents held by individual inventors are excluded,
+    <p class="aside">These are early results. The money values come from a simple renewal model in which returns
+      decline at a fixed rate; a richer model, in which owners learn about a patent's value over time, is the next
+      step. Citations do not capture every aspect of quality. Patents held by individual inventors are excluded,
       and Brazil is too thin to estimate on its own. India, Mexico and South Africa cannot yet be studied this way
       because their renewal records are not in PATSTAT.</p>
 
@@ -168,8 +194,13 @@
         technology field fixed effects, office-specific citation effects and owner type, comparing domestic and foreign
         owners within offices (difference-in-differences across offices); standard errors clustered by owner. Sales and
         licences: landmark design at patent ages 4–8. Same invention: patent-family fixed effects. Fees: renewal
-        decisions before and after fee changes for eligible and ineligible owners.</li>
-      <li>Related: Pakes, A. (1986), "Patents as Options," <em>Econometrica</em>; Kogan, L., D. Papanikolaou, A. Seru and
+        decisions before and after fee changes for eligible and ineligible owners. Values: deterministic renewal model
+        (Schankerman and Pakes, 1986) estimated by maximum likelihood on each patent's fee path, with lognormal initial
+        returns by owner group and citations, a 10% discount rate and returns declining 15% a year (10–20% as
+        sensitivity).</li>
+      <li>Related: Pakes, A. (1986), "Patents as Options," <em>Econometrica</em>; Schankerman, M. and A. Pakes (1986),
+        "Estimates of the Value of Patent Rights in European Countries during the Post-1950 Period," <em>Economic
+        Journal</em>;Kogan, L., D. Papanikolaou, A. Seru and
         N. Stoffman (2017), "Technological Innovation, Resource Allocation, and Growth," <em>Quarterly Journal of
         Economics</em>.</li>
     </ul>
